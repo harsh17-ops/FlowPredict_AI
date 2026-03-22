@@ -4,6 +4,10 @@ import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 import time
+import os
+
+# ── Environment Variables ──────────────────────────────────
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # ── Page config — MUST be first ───────────────────────────
 st.set_page_config(
@@ -617,7 +621,7 @@ def predict_page():
         with st.spinner("Running ML prediction..."):
             time.sleep(0.4)
             try:
-                res = requests.post("http://localhost:8000/predict",
+                res = requests.post(f"{BACKEND_URL}/predict",
                                     json=payload, timeout=5).json()
                 st.session_state.prediction = res
                 st.session_state.history.append({
@@ -859,7 +863,7 @@ def voice_page():
                 "Ask FlowPredict AI anything using your voice — powered by Vapi")
 
     # ── Widget is securely served by the FastAPI Backend to fix WebRTC origin blocking ──
-    st.markdown('<iframe src="http://localhost:8000/vapi" allow="microphone; autoplay; camera" width="100%" height="600" style="border:none;"></iframe>', unsafe_allow_html=True)
+    st.markdown(f'<iframe src="{BACKEND_URL}/vapi" allow="microphone; autoplay; camera" width="100%" height="600" style="border:none;"></iframe>', unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════
