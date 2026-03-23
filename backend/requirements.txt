@@ -2,5 +2,7 @@ fastapi
 uvicorn
 scikit-learn
 xgboost
+lightgbm
+catboost
 numpy
-
+pandas
